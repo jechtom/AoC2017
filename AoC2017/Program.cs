@@ -6,7 +6,8 @@ namespace AoC2017
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Advent of Code 2017");
+            new Day01().Run();
         }
     }
 }
