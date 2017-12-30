@@ -8,6 +8,7 @@ namespace AoC2017
         {
             Console.WriteLine("Advent of Code 2017");
             new Day01().Run();
+            new Day02().Run();
         }
     }
 }
