@@ -40,7 +40,7 @@ namespace AoC2017
             ).Where(item => item.current == item.next)
             .Sum(item => item.current - '0');
 
-            Console.WriteLine($" For input {v} result is {result}");
+            Console.WriteLine($" For input {v.MakeShortIfTooLong()} result is {result}");
         }
     }
 }
