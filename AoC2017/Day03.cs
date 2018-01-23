@@ -61,19 +61,21 @@ namespace AoC2017
                     bool isCorner = sideIndex == current.SideSize - 1;
                     bool isAfterCorner = sideIndex == 0;
 
-                    int value = 0;
-
-                    if(!isCorner && !isAfterCorner)
+                    if (!isCorner && !isAfterCorner)
                     {
                         innerIndex++;
                     }
 
+                    int value = 0;
+
+                    // same layer
                     value += current[index - 1];
                     value += current[index + 1];
 
                     if (isAfterCorner) value += current[index - 2];
                     if (isBeforeCorner) value += current[index + 2];
 
+                    // inner layer
                     value += inner[innerIndex];
 
                     if(!isCorner)
