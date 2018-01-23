@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AoC2017
 {
@@ -28,6 +30,92 @@ namespace AoC2017
                 if (r1 != r2) throw new InvalidOperationException();
             }
             Console.WriteLine(" Check OK");
+
+            foreach (var number in GetPart2Sequence().Take(30))
+            {
+                Console.Write($" {number};");
+            }
+            Console.WriteLine();
+
+            int part2result = GetPart2Sequence().SkipWhile(n => n <= 312051).First();
+            Console.WriteLine($" Part 2 result is {part2result}");
+        }
+        
+        private IEnumerable<int> GetPart2Sequence()
+        {
+            var current = new LayerData(layer: 0);
+            current[0] = 1;
+            yield return 1;
+
+            while (true)
+            {
+                LayerData inner = current;
+                current = new LayerData(layer: current.Layer + 1);
+
+                int innerIndex = -1;
+                for (int index = 0; index < current.Size; index++)
+                {
+                    int sideIndex = index % current.SideSize;
+
+                    bool isBeforeCorner = sideIndex == current.SideSize - 2;
+                    bool isCorner = sideIndex == current.SideSize - 1;
+                    bool isAfterCorner = sideIndex == 0;
+
+                    int value = 0;
+
+                    if(!isCorner && !isAfterCorner)
+                    {
+                        innerIndex++;
+                    }
+
+                    value += current[index - 1];
+                    value += current[index + 1];
+
+                    if (isAfterCorner) value += current[index - 2];
+                    if (isBeforeCorner) value += current[index + 2];
+
+                    value += inner[innerIndex];
+
+                    if(!isCorner)
+                    {
+                        if (!isBeforeCorner) value += inner[innerIndex + 1];
+                        if (!isAfterCorner) value += inner[innerIndex - 1];
+                    }
+
+                    current[index] = value;
+                    yield return value;
+                }
+            }
+        }
+
+        class LayerData
+        {
+            int[] numbers;
+
+            public LayerData(int layer)
+            {
+                Layer = layer;
+                Size = layer == 0 ? 1 : layer * 8;
+                SideSize = Size / 4;
+                numbers = new int[Size];
+            }
+
+            public int this[int index]
+            {
+                get => numbers[FixIndex(index)];
+                set => numbers[FixIndex(index)] = value;
+            }
+
+            private int FixIndex(int index)
+            {
+                index %= Size;
+                if (index < 0) index += Size;
+                return index;
+            }
+
+            public int Layer { get; }
+            public int Size { get; }
+            public int SideSize { get; }
         }
 
         private int ComputePart1Var2(int input)
