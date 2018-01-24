@@ -13,16 +13,17 @@ namespace AoC2017
         internal void Run()
         {
             Console.WriteLine("DAY 03");
-            int[] inputs = new[] { 1, 12, 23, 1024, 312051 };
+
+            int mainInput = 312051;
+
+            int[] inputs = new[] { 1, 12, 23, 1024, mainInput };
             foreach (var input in inputs)
             {
-                int result = ComputePart1Var1(input);
-                Console.WriteLine($" Part 1: For input {input} the result A is {result}");
-
-                result = ComputePart1Var2(input);
-                Console.WriteLine($" Part 1: For input {input} the result B is {result}");
+                int result = ComputePart1Var2(input);
+                Console.WriteLine($" Part 1: For input {input} the result is {result}");
             }
 
+            // check if both alg. have same results
             for (int i = 1; i < 100_000; i++)
             {
                 int r1 = ComputePart1Var1(i);
@@ -37,7 +38,7 @@ namespace AoC2017
             }
             Console.WriteLine();
 
-            int part2result = GetPart2Sequence().SkipWhile(n => n <= 312051).First();
+            int part2result = GetPart2Sequence().First(n => n > mainInput);
             Console.WriteLine($" Part 2 result is {part2result}");
         }
         
@@ -122,6 +123,8 @@ namespace AoC2017
 
         private int ComputePart1Var2(int input)
         {
+            // faster math based algorithm
+
             int layer = (int)Math.Ceiling((Math.Sqrt(input) - 1) / 2);
             if (layer == 0) return 0;
             double layerSize = layer * 8;
@@ -136,6 +139,8 @@ namespace AoC2017
 
         private int ComputePart1Var1(int input)
         {
+            // slower layer-iteration based algorithm
+
             if (input == 1) return 0;
 
             int layer = 1;
