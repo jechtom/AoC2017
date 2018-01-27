@@ -11,6 +11,7 @@ namespace AoC2017
             new Day02().Run();
             new Day03().Run();
             new Day04().Run();
+            new Day05().Run();
         }
     }
 }
