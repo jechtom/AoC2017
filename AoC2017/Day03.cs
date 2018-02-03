@@ -32,7 +32,14 @@ namespace AoC2017
             }
             Console.WriteLine(" Check OK");
 
-            foreach (var number in GetPart2Sequence().Take(30))
+            // measure speed
+            new Measure("Part 1 algs")
+                .InTime(300)
+                .Variant("Layer-iteration alg", () => ComputePart1Var1(mainInput))
+                .Variant("Math alg", () => ComputePart1Var2(mainInput))
+                .PrintResults();
+
+            foreach (var number in GetPart2Sequence().Take(15))
             {
                 Console.Write($" {number};");
             }
